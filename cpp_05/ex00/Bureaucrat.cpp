@@ -24,12 +24,12 @@ Bureaucrat::Bureaucrat(const Bureaucrat& copy)
 // Copy assignment operator overload
 Bureaucrat& Bureaucrat::operator= (const Bureaucrat& copy)
 {
-    if (this == &copy)
-        return (*this);
-    std::cout << CYAN << "Bureaucrat copy assignment operator overload" << RESET << std::endl;
-    _name = copy._name;
+	if (this == &copy)
+		return (*this);
+	std::cout << CYAN << "Bureaucrat copy assignment operator overload" << RESET << std::endl;
+	_name = copy._name;
 	_grade = copy._grade;
-    return (*this);
+	return (*this);
 }
 
 std::string const &Bureaucrat::getName() const
