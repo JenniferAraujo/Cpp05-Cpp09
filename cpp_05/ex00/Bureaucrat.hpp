@@ -16,13 +16,14 @@
 # define YELLOW  "\e[0;33m"
 # define GREEN	"\e[0;32m"
 # define ORANGE	"\e[38;5;208m"
+# define RED	"\e[0;31m"
 # define RESET "\033[0m"
 
 class Bureaucrat
 {
 	private: 
-		std::string	_name; //nome do bucrocrata
-		int	_grade; // grau do burocrata
+		std::string	_name;
+		int	_grade;
 	public:
 		//constructors
 		Bureaucrat();
@@ -31,12 +32,28 @@ class Bureaucrat
 		
 		Bureaucrat& operator= (const Bureaucrat& copy);
 		
-		//method
+		//methods
 		std::string const &getName() const;
-		int	const	&getGrade() const;
+		int	const &getGrade() const;
+		void	incrementGrade();
+		void	decrementGrade();
 
 		//destructors
 		~Bureaucrat();
+
+		class	GradeTooHighException : public std::exception
+		{
+			public:
+				virtual const char* what() const throw();
+		};
+
+		class GradeTooLowException : public std::exception
+		{
+			public:
+				virtual const char* what() const throw();
+		};
 };
+
+std::ostream	&operator<<(std::ostream &out, Bureaucrat *a);
 
 #endif

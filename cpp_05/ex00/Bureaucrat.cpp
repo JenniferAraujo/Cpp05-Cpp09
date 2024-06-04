@@ -2,16 +2,21 @@
 
 Bureaucrat::Bureaucrat()
 {
-    _name = "Name";
+	_name = "Name";
 	_grade = 150;
-    std::cout << CYAN << "Bureaucrat default constructor called" << RESET << std::endl;
+	std::cout << CYAN << "Bureaucrat default constructor called" << RESET << std::endl;
 }
 
 Bureaucrat::Bureaucrat(std::string const &name, int grade)
 {
 	_name = name;
-    _grade = grade;
+	_grade = grade;
 	std::cout << CYAN << "Name default constructor called" << RESET << std::endl;
+	if (grade < 1)
+		throw (GradeTooLowException());
+	else if (grade > 150)
+		throw (GradeTooHighException());
+
 }
 
 // Copy constructor
@@ -42,11 +47,35 @@ int const &Bureaucrat::getGrade() const
 	return (this->_grade);
 }
 
-// Bureaucrat::GradeTooHighException()
-// {
+const char* Bureaucrat::GradeTooHighException::what() const throw()
+{
+	return ("\e[0;31mOps, grade is too high! 😞\033[0m");
+}
 
-// }
+const char* Bureaucrat::GradeTooLowException::what() const throw()
+{
+	return ("\e[0;31mOps, grade is to loow! 😞\033[0m");
+}
 
+void	Bureaucrat::incrementGrade()
+{
+	if (_grade <= 1)
+		throw GradeTooHighException();
+	_grade--;
+}
+
+void	Bureaucrat::decrementGrade()
+{
+	if (_grade >= 150)
+		throw GradeTooLowException();
+	_grade++;
+}
+
+std::ostream	&operator<<(std::ostream &out, Bureaucrat *a)
+{
+	out << "Bureaucrat " << a->getName() << ":\n\tgrade: " << a->getGrade() << std::endl;
+	return (out);
+}
 
 Bureaucrat::~Bureaucrat()
 {
