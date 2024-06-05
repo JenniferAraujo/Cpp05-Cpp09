@@ -14,7 +14,6 @@ Bureaucrat::Bureaucrat(std::string const &name, int grade): _name(name)
 		throw (GradeTooLowException());
 	else if (grade > 150)
 		throw (GradeTooHighException());
-
 }
 
 // Copy constructor
