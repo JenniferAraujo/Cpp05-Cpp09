@@ -21,7 +21,7 @@ Bureaucrat::Bureaucrat(std::string const &name, int grade): _name(name)
 Bureaucrat::Bureaucrat(const Bureaucrat& copy): _name(copy._name)
 {
 	_grade = copy._grade;
-    std::cout << CYAN << "Bureaucrat copy constructor called" << RESET << std::endl;
+	std::cout << CYAN << "Bureaucrat copy constructor called" << RESET << std::endl;
 }
 
 // Copy assignment operator overload
@@ -46,12 +46,12 @@ int const &Bureaucrat::getGrade() const
 
 const char* Bureaucrat::GradeTooHighException::what() const throw()
 {
-	return ("\e[0;31mOps, grade is too high! 😞\033[0m");
+	return ("\e[0;31mGrade is too high! 😞\033[0m");
 }
 
 const char* Bureaucrat::GradeTooLowException::what() const throw()
 {
-	return ("\e[0;31mOps, grade is to loow! 😞\033[0m");
+	return ("\e[0;31mGrade is to loow! 😞\033[0m");
 }
 
 void	Bureaucrat::incrementGrade()
@@ -70,7 +70,7 @@ void	Bureaucrat::decrementGrade()
 
 std::ostream	&operator<<(std::ostream &out, Bureaucrat *a)
 {
-	out << "Bureaucrat " << a->getName() << ":\n\tgrade: " << a->getGrade() << std::endl;
+	out << "Bureaucrat " << a->getName() << "\n\tgrade: " << a->getGrade() << std::endl;
 	return (out);
 }
 

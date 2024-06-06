@@ -1,31 +1,22 @@
 #include "Bureaucrat.hpp"
+#include "Form.hpp"
 
 int main(void)
 {
-    try {
-        Bureaucrat bob("Bob", 2);
-        std::cout << GREEN << &bob << RESET << std::endl;
-        bob.incrementGrade(); 
-        std::cout << GREEN << &bob << RESET << std::endl;
-        bob.incrementGrade();
-    }
-	catch (const Bureaucrat::GradeTooHighException& e) {
-        std::cout << e.what() << std::endl; }
-	catch (const Bureaucrat::GradeTooLowException& e){
-        std::cout << e.what() << std::endl; }
+	try {
+		Bureaucrat john("John", 50);
+		Form formA("FormA", 30, 10);
+		Form formB("FormB", 60, 20);
 
-    try
+		john.signForm(formA);
+		john.signForm(formB);
+		john.signForm(formB);
+
+		std::cout << MAGENTA << &formA << RESET << std::endl;
+		std::cout << MAGENTA << &formB << RESET << std::endl;
+	}
+	catch (const std::exception& e)
 	{
-        Bureaucrat alice("Alice", 150);
-        std::cout << MAGENTA << &alice << RESET << std::endl;
-        alice.decrementGrade();
-        std::cout << MAGENTA << &alice << RESET << std::endl;
-        alice.decrementGrade();
-    }
-	catch (const Bureaucrat::GradeTooHighException& e) {
-        std::cout << e.what() << std::endl; }
-    catch (const Bureaucrat::GradeTooLowException& e) {
-        std::cout << e.what() << std::endl; }
-
-    return (0);
+		std::cout << e.what() << std::endl;
+	}
 }

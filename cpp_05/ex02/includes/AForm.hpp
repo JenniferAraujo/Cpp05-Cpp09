@@ -1,21 +1,21 @@
-#ifndef FORM_HPP
-# define FORM_HPP
+#ifndef AFORM_HPP
+# define AFORM_HPP
 
-# include "Bureaucrat.hpp"
+#include "Bureaucrat.hpp"
 
 class Bureaucrat;
 
-class Form {
+class AForm {
 	private: 
 		const std::string _name; //nome
-		const int	_gradeToSign; //grade minimo p assinar o form
-		const int	_gradeToExecute; //grade minimo p executar o form
-		bool		_isSigned; //bool p saber se o form ja foi assinado
+		const int	_gradeToSign; //grade minimo p assinar o Aform
+		const int	_gradeToExecute; //grade minimo p executar o Aform
+		bool		_isSigned; //bool p saber se o Aform ja foi assinado
 
 	public:
-		Form();
-		Form(std::string name, const int gradeToSign, const int gradeToExecute);
-		Form(const Form& copy); //copy constructor
+		AForm();
+		AForm(std::string name, const int gradeToSign, const int gradeToExecute);
+		AForm(const AForm& copy); //copy constructor
 		
 		//Getters
 		std::string const &getName() const;
@@ -23,11 +23,10 @@ class Form {
 		int	const &getgradeToSign() const;
 		bool	getisSigned() const;
 
-		//methods
-		void	beSigned(const Bureaucrat& b); //altera o status do form p assinar 
+		virtual void	beSigned(const Bureaucrat& b) = 0; //altera o status do Aform p assinar 
 
-		Form& operator= (const Form& copy);
-		~Form();
+		AForm& operator= (const AForm& copy);
+		~AForm();
 
 		class GradeTooHighException : public std::exception{
 			public:
@@ -45,12 +44,12 @@ class Form {
 			public:
 				virtual const char* what() const throw();
 		};
-		class FormAlreadySigned : public std::exception{
+		class AFormAlreadySigned : public std::exception{
 			public:
 				virtual const char* what() const throw();
 		};
 };
 
-std::ostream	&operator<<(std::ostream &out, Form *a);
+std::ostream	&operator<<(std::ostream &out, AForm *a);
 
 #endif

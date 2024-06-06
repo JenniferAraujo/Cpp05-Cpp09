@@ -10,7 +10,7 @@
 # include <iomanip> 
 # include <cstdlib>
 # include <ctime>
-# include "Form.hpp"
+# include "AForm.hpp"
 
 # define CYAN    "\e[0;36m"
 # define MAGENTA "\033[0;35m"
@@ -21,7 +21,7 @@
 # define BLUE	"\033[34m"
 # define RESET "\033[0m"
 
-class Form;
+class AForm;
 
 class Bureaucrat
 {
@@ -41,7 +41,7 @@ class Bureaucrat
 		int		const &getGrade() const;
 		void	incrementGrade();
 		void	decrementGrade();
-		void	signForm(Form& form);
+		void	signForm(AForm& form);
 
 		//destructors
 		~Bureaucrat();

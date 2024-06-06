@@ -1,4 +1,5 @@
-#include "Bureaucrat.hpp"
+#include "./includes/Bureaucrat.hpp"
+#include "./includes/AForm.hpp"
 
 Bureaucrat::Bureaucrat(): _name("Name")
 {
@@ -20,7 +21,7 @@ Bureaucrat::Bureaucrat(std::string const &name, int grade): _name(name)
 Bureaucrat::Bureaucrat(const Bureaucrat& copy): _name(copy._name)
 {
 	_grade = copy._grade;
-    std::cout << BLUE << "Bureaucrat copy constructor called" << RESET << std::endl;
+	std::cout << BLUE << "Bureaucrat copy constructor called" << RESET << std::endl;
 }
 
 // Copy assignment operator overload
@@ -67,17 +68,17 @@ void	Bureaucrat::decrementGrade()
 	_grade++;
 }
 
-void	Bureaucrat::signForm(Form& form)
+void	Bureaucrat::signForm(AForm& form)
 {
-    try
+	try
 	{
-        form.beSigned(*this);
-        std::cout << GREEN << _name << " signed " << form.getName() << RESET << std::endl;
-    }
+		form.beSigned(*this);
+		std::cout << GREEN << _name << " signed " << form.getName() << RESET << std::endl;
+	}
 	catch (const std::exception& e)
 	{
-        std::cout << RED  << _name << " couldn't sign " << form.getName() << " because " << e.what() << RESET << std::endl;
-    }
+		std::cout << RED  << _name << " couldn't sign " << form.getName() << " because " << e.what() << RESET << std::endl;
+	}
 }
 
 std::ostream	&operator<<(std::ostream &out, Bureaucrat *a)

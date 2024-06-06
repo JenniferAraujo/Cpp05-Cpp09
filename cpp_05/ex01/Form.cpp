@@ -1,3 +1,4 @@
+#include "Bureaucrat.hpp"
 #include "Form.hpp"
 
 Form::Form(): _name("Name"), _gradeToSign(150), _gradeToExecute(150), _isSigned(false)
@@ -7,14 +8,14 @@ Form::Form(): _name("Name"), _gradeToSign(150), _gradeToExecute(150), _isSigned(
 Form::Form(std::string name, const int gradeToSign, const int gradeToExecute): _name(name), _gradeToSign(gradeToSign), _gradeToExecute(gradeToExecute), _isSigned(false)
 {
 	std::cout << CYAN << "Attributes default constructor called" << RESET << std::endl;
-    if (gradeToSign < 1 || gradeToExecute < 1)
-        throw (GradeTooLowException());
-    else if (gradeToSign > 150 || gradeToExecute > 150)
-        throw (GradeTooHighException());
+	if (gradeToSign < 1 || gradeToExecute < 1)
+		throw (GradeTooLowException());
+	else if (gradeToSign > 150 || gradeToExecute > 150)
+		throw (GradeTooHighException());
 }
 Form::Form(const Form& copy): _name(copy._name), _gradeToSign(copy._gradeToSign), _gradeToExecute(copy._gradeToExecute), _isSigned(copy._isSigned)
 {
-    std::cout << CYAN << "Form copy constructor called" << RESET << std::endl;
+	std::cout << CYAN << "Form copy constructor called" << RESET << std::endl;
 }
 
 Form& Form::operator= (const Form& copy)
@@ -43,31 +44,37 @@ int	const &Form::getgradeToSign() const
 
 bool    Form::getisSigned() const
 {
-    return (this->_isSigned);
+	return (this->_isSigned);
 }
 
 const char* Form::GradeTooHighException::what() const throw()
 {
-	return ("\e[0;31mOps, grade is too high! 😞\033[0m");
+	return ("\e[0;31mGrade is too high! 😞\033[0m");
 }
 
 const char* Form::GradeTooLowException::what() const throw()
 {
-	return ("\e[0;31mOps, grade is to loow! 😞\033[0m");
+	return ("\e[0;31mGrade is to loow! 😞\033[0m");
 }
 
 const char* Form::gradeToSignTooHighException::what() const throw()
 {
-	return ("\e[38;5;208mOps, grade isSigned is too high! 😞\033[0m");
+	return ("\e[0;31mGrade isSigned is too high! 😞\033[0m");
 }
 
 const char* Form::gradeToSignTooLowException::what() const throw()
 {
-	return ("\e[38;5;208mOps, grade isSigned is to loow! 😞\033[0m");
+	return ("\e[0;31mGrade isSigned is to loow! 😞\033[0m");
+}
+const char* Form::FormAlreadySigned::what() const throw()
+{
+	return ("\e[0;31mForm is already signed! ⛔\033[0m");
 }
 
 void    Form::beSigned(const Bureaucrat& b)
 {
+	if (_isSigned)
+		throw FormAlreadySigned();
 	if (b.getGrade() > _gradeToSign)
 		throw (gradeToSignTooLowException());
 	_isSigned = true;
@@ -75,11 +82,11 @@ void    Form::beSigned(const Bureaucrat& b)
 
 std::ostream	&operator<<(std::ostream &out, Form *a)
 {
-	out << "Form " << a->getName() << ":\tgrade isSigned: " << a->getgradeToSign() <<"\tgrade execute: " << a->getgradeToExecute() << "\tisSigned: "<< a->getisSigned() << std::endl;
+	out << "Form: " << a->getName() << "\tgrade isSigned: " << a->getgradeToSign() <<"\tgrade execute: " << a->getgradeToExecute() << "\tisSigned: "<< (a->getisSigned() ? "yes ✅" : "no ❌") << std::endl;
 	return (out);
 }
 
 Form::~Form()
 {
-    std::cout << CYAN << "Form destructor called" << RESET << std::endl;
+	std::cout << CYAN << "Form destructor called" << RESET << std::endl;
 }
