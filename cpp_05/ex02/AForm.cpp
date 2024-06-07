@@ -47,6 +47,11 @@ bool    AForm::getisSigned() const
 	return (this->_isSigned);
 }
 
+void AForm::setSigned(bool signedStatus)
+{
+    _isSigned = signedStatus;
+}
+
 const char* AForm::GradeTooHighException::what() const throw()
 {
 	return ("\e[0;31mGrade is too high! 😞\033[0m");
@@ -70,15 +75,6 @@ const char* AForm::AFormAlreadySigned::what() const throw()
 {
 	return ("\e[0;31mAForm is already signed! ⛔\033[0m");
 }
-
-// void    AForm::beSigned(const Bureaucrat& b)
-// {
-// 	if (_isSigned)
-// 		throw AFormAlreadySigned();
-// 	if (b.getGrade() > _gradeToSign)
-// 		throw (gradeToSignTooLowException());
-// 	_isSigned = true;
-// }
 
 std::ostream	&operator<<(std::ostream &out, AForm *a)
 {

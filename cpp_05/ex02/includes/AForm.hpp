@@ -1,6 +1,7 @@
 #ifndef AFORM_HPP
 # define AFORM_HPP
 
+#include <fstream>
 #include "Bureaucrat.hpp"
 
 class Bureaucrat;
@@ -22,6 +23,7 @@ class AForm {
 		int	const &getgradeToExecute() const;
 		int	const &getgradeToSign() const;
 		bool	getisSigned() const;
+		void	setSigned(bool signedStatus);
 
 		virtual void	beSigned(const Bureaucrat& b) = 0; //altera o status do Aform p assinar 
 

@@ -26,8 +26,7 @@ PresidentialPardonForm& PresidentialPardonForm::operator= (const PresidentialPar
 
 std::ostream	&operator<<(std::ostream &out, PresidentialPardonForm *a)
 {
-	//rever isso aqui 
-	out << "AForm: " << a->getName() << "\tgrade isSigned: " << a->getgradeToSign() <<"\tgrade execute: " << a->getgradeToExecute() << "\tisSigned: "<< (a->getisSigned() ? "yes ✅" : "no ❌") << std::endl;
+	out << "Form: " << a->getName() << "\tGrade to sign: " << a->getgradeToSign() <<"\tgrade to execute: " << a->getgradeToExecute() << "\tIs Signed? "<< (a->getisSigned() ? "yes ✅" : "no ❌") << std::endl;
 	return (out);
 }
 

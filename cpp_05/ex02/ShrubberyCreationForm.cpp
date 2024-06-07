@@ -10,7 +10,7 @@ ShrubberyCreationForm::ShrubberyCreationForm(std::string target) : AForm("Shrubb
 {
 	std::cout << CYAN << "Attributes default constructor called" << RESET << std::endl;
 }
-ShrubberyCreationForm::ShrubberyCreationForm(const ShrubberyCreationForm &cpy) : AForm(cpy), _target(cpy._target)
+ShrubberyCreationForm::ShrubberyCreationForm(const ShrubberyCreationForm &copy) : AForm(copy), _target(copy._target)
 {
 	std::cout << CYAN << "ShrubberyCreationForm copy constructor called" << RESET << std::endl;
 }
@@ -26,9 +26,43 @@ ShrubberyCreationForm& ShrubberyCreationForm::operator= (const ShrubberyCreation
 
 std::ostream	&operator<<(std::ostream &out, ShrubberyCreationForm *a)
 {
-	//rever isso aqui 
-	out << "AForm: " << a->getName() << "\tgrade isSigned: " << a->getgradeToSign() <<"\tgrade execute: " << a->getgradeToExecute() << "\tisSigned: "<< (a->getisSigned() ? "yes ✅" : "no ❌") << std::endl;
+	out << "Form: " << a->getName() << "\tGrade to sign: " << a->getgradeToSign() <<"\tgrade to execute: " << a->getgradeToExecute() << "\tIs Signed? "<< (a->getisSigned() ? "yes ✅" : "no ❌") << std::endl;
 	return (out);
+}
+
+std::string const &ShrubberyCreationForm::getTarget() const
+{
+	return (this->_target);
+}
+
+void    ShrubberyCreationForm::beSigned(const Bureaucrat& b)
+{
+	if (getisSigned())
+		throw AForm::AFormAlreadySigned();
+	if (b.getGrade() > getgradeToSign())
+		throw AForm::GradeTooLowException();
+	setSigned(true);
+}
+
+void ShrubberyCreationForm::executeAction()  const
+{
+	std::ofstream file((_target + "_shrubbery").c_str());
+	if (file.is_open())
+	{
+		file << "          &&& &&  & &&\n";
+		file << "      && &\\/&\\|& ()|/ @, &&\n";
+		file << "      &\\/(/&/&||/& /_/_)&/_&\n";
+		file << "   &() &\\/&|()|/&\\/ '%\" & ()\n";
+		file << "  &_\\_&&_\\ |& |&&/&__%_/_& &&\n";
+		file << "&&   && & &| &| /& & % ()& /&&\n";
+		file << "   ()&_---()&\\&\\|&&-&&--%---()~\n";
+		file << "             &&     \\|||\n";
+		file << "                       |||\n";
+		file << "                       |||\n";
+		file << "                       |||\n";
+		file << "                  , -=-~  .-^- _\n";
+		file.close();
+	}
 }
 
 ShrubberyCreationForm::~ShrubberyCreationForm()

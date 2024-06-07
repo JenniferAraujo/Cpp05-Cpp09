@@ -13,6 +13,9 @@ class RobotomyRequestForm : public AForm {
 			RobotomyRequestForm(const RobotomyRequestForm& copy);
 			RobotomyRequestForm& operator= (const RobotomyRequestForm& copy);
 
+			std::string  const &getTarget() const;
+			void	executeAction()const;
+			void	beSigned(const Bureaucrat& b);
 			~RobotomyRequestForm();
 };
 

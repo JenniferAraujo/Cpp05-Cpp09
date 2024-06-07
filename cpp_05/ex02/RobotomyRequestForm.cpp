@@ -26,9 +26,31 @@ RobotomyRequestForm& RobotomyRequestForm::operator= (const RobotomyRequestForm& 
 
 std::ostream	&operator<<(std::ostream &out, RobotomyRequestForm *a)
 {
-	//rever isso aqui 
-	out << "AForm: " << a->getName() << "\tgrade isSigned: " << a->getgradeToSign() <<"\tgrade execute: " << a->getgradeToExecute() << "\tisSigned: "<< (a->getisSigned() ? "yes ✅" : "no ❌") << std::endl;
+	out << "Form: " << a->getName() << "\tGrade to sign: " << a->getgradeToSign() <<"\tgrade to execute: " << a->getgradeToExecute() << "\tIs Signed? "<< (a->getisSigned() ? "yes ✅" : "no ❌") << std::endl;
 	return (out);
+}
+
+std::string const &RobotomyRequestForm::getTarget() const
+{
+	return (this->_target);
+}
+
+void RobotomyRequestForm::beSigned(const Bureaucrat& b)
+{
+	if (getisSigned())
+		throw AForm::AFormAlreadySigned();
+	if (b.getGrade() > getgradeToSign())
+		throw AForm::GradeTooLowException();
+	setSigned(true);
+}
+
+void	RobotomyRequestForm::executeAction()const
+{
+	std::cout << "BZZZZZZZ... VRRRRR... 🤖" << std::endl;
+	if (std::rand() % 2 == 0)
+		std::cout << _target << " has been robotomized successfully." << std::endl;
+	else
+		std::cout << "The robotomy of " << _target << " has failed." << std::endl;
 }
 
 RobotomyRequestForm::~RobotomyRequestForm()
