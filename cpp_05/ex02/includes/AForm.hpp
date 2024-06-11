@@ -26,9 +26,11 @@ class AForm {
 		void	setSigned(bool signedStatus);
 
 		virtual void	beSigned(const Bureaucrat& b) = 0; //altera o status do Aform p assinar 
+		virtual void	executeAction(Bureaucrat const& executor) const = 0;
+		void			execute(Bureaucrat const& executor) const;
 
 		AForm& operator= (const AForm& copy);
-		~AForm();
+		virtual ~AForm();
 
 		class GradeTooHighException : public std::exception{
 			public:
@@ -47,6 +49,10 @@ class AForm {
 				virtual const char* what() const throw();
 		};
 		class AFormAlreadySigned : public std::exception{
+			public:
+				virtual const char* what() const throw();
+		};
+		class FormNotSigned : public std::exception{
 			public:
 				virtual const char* what() const throw();
 		};

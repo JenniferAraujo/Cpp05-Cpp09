@@ -6,7 +6,7 @@ SRC = Bureaucrat.cpp AForm.cpp ShrubberyCreationForm.cpp RobotomyRequestForm.cpp
 OBJ = $(SRC:.cpp=.o)
 CXX = c++
 RM = rm -f
-CXXFLAGS = -Wall -Wextra -Werror -std=c++98
+CXXFLAGS = -Wall -Wextra -Werror -std=c++98 -fsanitize=address
 
 NAME = bureaucrat
 
@@ -26,6 +26,6 @@ fclean: clean
 
 re: fclean $(NAME)
 
-.SILENT:
+#.SILENT:
 
 .PHONY: all clean fclean re
