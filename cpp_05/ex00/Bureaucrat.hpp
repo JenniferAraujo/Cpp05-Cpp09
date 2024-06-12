@@ -19,8 +19,7 @@
 # define RED	"\e[0;31m"
 # define RESET "\033[0m"
 
-class Bureaucrat
-{
+class Bureaucrat {
 	private: 
 		const std::string	_name;
 		int			_grade;

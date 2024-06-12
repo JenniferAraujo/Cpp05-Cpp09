@@ -3,7 +3,8 @@
 
 int main(void)
 {
-	try {
+	try
+	{
 		Bureaucrat john("John", 50);
 		Form formA("FormA", 30, 10);
 		Form formB("FormB", 60, 20);

@@ -12,9 +12,9 @@ Bureaucrat::Bureaucrat(std::string const &name, int grade): _name(name)
 	_grade = grade;
 	std::cout << BLUE << "Attributes default constructor called" << RESET << std::endl;
 	if (grade < 1)
-		throw (GradeTooLowException());
-	else if (grade > 150)
 		throw (GradeTooHighException());
+	else if (grade > 150)
+		throw (GradeTooLowException());
 }
 
 // Copy constructor
@@ -51,7 +51,7 @@ const char* Bureaucrat::GradeTooHighException::what() const throw()
 
 const char* Bureaucrat::GradeTooLowException::what() const throw()
 {
-	return ("\e[0;31mOps, grade is to loow! 😞\033[0m");
+	return ("\e[0;31mOps, grade is to low! 😞\033[0m");
 }
 
 void	Bureaucrat::incrementGrade()
@@ -86,7 +86,7 @@ void	Bureaucrat::executeForm(const AForm& form) const
 	try
 	{
 		form.execute(*this);
-		std::cout << _name << " executed " << form.getName() << std::endl;
+		std::cout << _name << " executed form " << form.getName() << std::endl;
 	}
 	catch (std::exception& e)
 	{

@@ -2,7 +2,7 @@ GREEN	:= \033[1;32m
 RED		:= \033[1;31m
 RES		:= \033[0m
 
-SRC = Bureaucrat.cpp AForm.cpp ShrubberyCreationForm.cpp RobotomyRequestForm.cpp PresidentialPardonForm.cpp TestPresidentialPardonForm.cpp TestRobotomyRequestForm.cpp TestShrubberyCreationForm.cpp main.cpp
+SRC = Bureaucrat.cpp AForm.cpp ShrubberyCreationForm.cpp RobotomyRequestForm.cpp PresidentialPardonForm.cpp Intern.cpp main.cpp
 OBJ = $(SRC:.cpp=.o)
 CXX = c++
 RM = rm -f

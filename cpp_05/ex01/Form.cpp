@@ -5,14 +5,16 @@ Form::Form(): _name("Name"), _gradeToSign(150), _gradeToExecute(150), _isSigned(
 {
 	std::cout << CYAN << "Form default constructor called" << RESET << std::endl;
 }
+
 Form::Form(std::string name, const int gradeToSign, const int gradeToExecute): _name(name), _gradeToSign(gradeToSign), _gradeToExecute(gradeToExecute), _isSigned(false)
 {
 	std::cout << CYAN << "Attributes default constructor called" << RESET << std::endl;
 	if (gradeToSign < 1 || gradeToExecute < 1)
-		throw (GradeTooLowException());
-	else if (gradeToSign > 150 || gradeToExecute > 150)
 		throw (GradeTooHighException());
+	else if (gradeToSign > 150 || gradeToExecute > 150)
+		throw (GradeTooLowException());
 }
+
 Form::Form(const Form& copy): _name(copy._name), _gradeToSign(copy._gradeToSign), _gradeToExecute(copy._gradeToExecute), _isSigned(copy._isSigned)
 {
 	std::cout << CYAN << "Form copy constructor called" << RESET << std::endl;
@@ -54,7 +56,7 @@ const char* Form::GradeTooHighException::what() const throw()
 
 const char* Form::GradeTooLowException::what() const throw()
 {
-	return ("\e[0;31mGrade is to loow! 😞\033[0m");
+	return ("\e[0;31mGrade is to low! 😞\033[0m");
 }
 
 const char* Form::gradeToSignTooHighException::what() const throw()
@@ -64,8 +66,9 @@ const char* Form::gradeToSignTooHighException::what() const throw()
 
 const char* Form::gradeToSignTooLowException::what() const throw()
 {
-	return ("\e[0;31mGrade isSigned is to loow! 😞\033[0m");
+	return ("\e[0;31mGrade isSigned is to low! 😞\033[0m");
 }
+
 const char* Form::FormAlreadySigned::what() const throw()
 {
 	return ("\e[0;31mForm is already signed! ⛔\033[0m");
