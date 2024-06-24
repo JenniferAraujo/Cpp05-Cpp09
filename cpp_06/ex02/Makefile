@@ -2,13 +2,13 @@ GREEN	:= \033[1;32m
 RED		:= \033[1;31m
 RES		:= \033[0m
 
-SRC = ScalarConverte.cpp main.cpp
+SRC = Base.cpp main.cpp
 OBJ = $(SRC:.cpp=.o)
 CXX = c++
 RM = rm -f
-CXXFLAGS = -Wall -Wextra -Werror -std=c++98 -fsanitize=address
+CXXFLAGS = -Wall -Wextra -Werror -std=c++98 
 
-NAME = ScalarConverte
+NAME = Base
 
 all: $(NAME)
 

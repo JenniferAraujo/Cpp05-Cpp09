@@ -21,38 +21,30 @@
 # define BLUE	"\033[34m"
 # define RESET "\033[0m"
 
-#define INT_MAX 2147483647
-#define INT_MIN -2147483648
-#define FLT_MAX 3.402823466e+38F
-#define FLT_MIN 1.175494351e-38F
-#define DBL_MAX 1.7976931348623158e+308
-#define DBL_MIN 2.2250738585072014e-308
 
 class ScalarConverter
 {
 	private:
-		std::string _string;
-		char _char;
-		int _int;
-		float _float;
-		double _double;
-	public:
 		ScalarConverter();
-		ScalarConverter(const std::string& string);
 		ScalarConverter(const ScalarConverter& copy);
 		ScalarConverter& operator=(const ScalarConverter& copy);
+
+	public:
 		~ScalarConverter();
 
-		void convert();
+		//types
+		static bool	isChar(const std::string& literal);
+		static bool	isInt(const std::string& literal);
+		static bool	isFloat(const std::string& literal);
+		static bool	isDouble(const std::string& literal);
 
-		bool isChar(const std::string& literal);
-		bool isInt(const std::string& literal);
-		bool isFloat(const std::string& literal);
-		bool isDouble(const std::string& literal);
-
-		void printResults(char c, int i, float f, double d);
-		void handleNan(const std::string& literal);
-		void handleInf(const std::string& literal, bool positive);
+		//conversions
+		static void	charConversion(char c);
+		static void	intConversion(const std::string& literal);
+		static void	floatConversion(float _float);
+		static void	doubleConversion(double _double);
+		static void	inf_nan(const std::string& literal);
+		static void	convert(const std::string& literal);
 };
 
 #endif

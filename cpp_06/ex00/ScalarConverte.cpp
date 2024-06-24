@@ -2,136 +2,229 @@
 
 ScalarConverter::ScalarConverter()
 {
-    std::cout << "ScalarConverter default constructor called" << std::endl;
+	std::cout << BLUE << "ScalarConverter default constructor called" << RESET << std::endl;
 }
 
-ScalarConverter::ScalarConverter(const std::string& string) : _string(string)
+ScalarConverter::ScalarConverter(const ScalarConverter& copy)
 {
-    std::cout << "Attributes default constructor called" << std::endl;
-}
-
-ScalarConverter::ScalarConverter(const ScalarConverter& copy) : _string(copy._string), _char(copy._char), _int(copy._int), _float(copy._float), _double(copy._double)
-{
-    std::cout << "ScalarConverter copy constructor called" << std::endl;
+	std::cout << BLUE << "ScalarConverter copy constructor called" << RESET << std::endl;
+	*this = copy;
 }
 
 ScalarConverter& ScalarConverter::operator=(const ScalarConverter& copy)
 {
-    if (this == &copy)
-        return *this;
-    std::cout << "ScalarConverter copy assignment operator overload" << std::endl;
-    _string = copy._string;
-    _char = copy._char;
-    _int = copy._int;
-    _float = copy._float;
-    _double = copy._double;
-    return *this;
+	if (this == &copy)
+		return *this;
+	std::cout << BLUE << "ScalarConverter copy assignment operator overload" << RESET << std::endl;
+	return *this;
+}
+
+bool	ScalarConverter::isChar(const std::string& literal)
+{
+	if (literal.length() >= 2 || std::isdigit(literal[0]) || !std::isprint(literal[0]))
+		return false;
+	return true;
+}
+
+bool	ScalarConverter::isInt(const std::string& literal)
+{
+	if (literal.empty())
+		return false;
+	int start = 0;
+	if (literal[0] == '-' || literal[0] == '+')
+	{
+		if (literal.size() == 1)
+			return false;
+		start = 1;
+	}
+	for (size_t i = start; i < literal.size(); ++i)
+	{
+		if (!isdigit(literal[i]))
+			return false;
+	}
+	try {
+		long val = std::stol(literal);
+		if (val < -2147483647 || val > 2147483647)
+			return false;
+	}
+	catch (...)
+	{
+		return false;
+	}
+	return true;
+}
+
+bool	ScalarConverter::isFloat(const std::string & literal)
+{
+	int size = literal.length();
+	if (size < 2)
+		return false;
+	int start = 0;
+	if (literal[0] == '-')
+	{
+		if (size == 2) return false;
+		start = 1;
+	}
+	if (literal[size - 1] != 'f')
+		return false;
+	bool point_found = false;
+	for (int i = start; i < size - 1; i++)
+	{
+		if (literal[i] == '.')
+		{
+			if (point_found)
+				return false;
+			point_found = true;
+		}
+		else if (literal[i] < '0' || literal[i] > '9')
+			return false;
+	}
+	return point_found; 
+}
+
+bool	ScalarConverter::isDouble(const std::string& literal)
+{
+	if (literal.empty())
+		return false;
+	int start = 0;
+	if (literal[0] == '-')
+	{
+		if (literal.size() == 1)
+			return false;
+		start = 1;
+	}
+	bool point_found = false;
+	for (size_t i = start; i < literal.size(); ++i)
+	{
+		if (literal[i] == '.')
+		{
+			if (point_found)
+				return false;
+			point_found = true;
+		}
+		else if (!isdigit(literal[i]))
+			return false;
+	}
+	return point_found && (literal.size() > 1);
+}
+
+void ScalarConverter::charConversion(char c)
+{
+	std::cout << "Char: '" << c << "'"<< std::endl;
+	std::cout << "Int: " << static_cast<int>(c) << std::endl;
+	std::cout << "Float: " << static_cast<float>(c) << ".0f"<< std::endl;
+	std::cout << "Double: " << static_cast<double>(c) << ".0"<< std::endl;
+}
+
+void	ScalarConverter::intConversion(const std::string &literal)
+{
+	int i = std::atoi(literal.c_str());
+	if ((i >= 0 && i < 32) || i == 127)
+		std::cout << "char: Non displayable" << std::endl;
+	else if (i > 126 || i < 0)
+		std::cout << "char: impossible" << std::endl;
+	else
+		std::cout << "char: '" << static_cast<char>(i) << "'"<< std::endl;
+	std::cout << "int: " << i << std::endl;
+	std::cout << "float: " << static_cast<float>(i) << ".0f" << std::endl;
+	std::cout << "double: " << static_cast<double>(i) << ".0" << std::endl;
+}
+
+void ScalarConverter::floatConversion(float _float)
+{
+	char signal = '\0';
+	if (std::isinf(_float) && _float > 0)
+		signal = '+';
+	double d = static_cast<double>(_float);
+	int i = static_cast<int>(_float);
+	if (_float != i || i > 126 || i < 0)
+		std::cout << "char: impossible" << std::endl;
+	else if ((i >= 0 && i < 32) || i == 127)
+		std::cout << "char: Non displayable" << std::endl;
+	else
+		std::cout << "char: '" << static_cast<char>(i) << "'"<< std::endl;
+	if (_float > std::numeric_limits<int>::max() || _float < std::numeric_limits<int>::min())
+		std::cout << "int: impossible" << std::endl;
+	else
+		std::cout << "int: " << i << std::endl;
+	if (i == _float)
+		std::cout << "float: " << signal << _float << ".0f" <<  std::endl;
+	else
+		std::cout << "float: " << signal << _float << "f" <<  std::endl;
+	if (i == d)
+		std::cout << "double: " << signal << d << ".0" << std::endl;
+	else
+		std::cout << "double: " << signal << d << std::endl;
+}
+
+void	ScalarConverter::doubleConversion(double _double)
+{
+	char signal = '\0';
+	if (std::isinf(_double) && _double > 0)
+		signal = '+';
+	float _float = static_cast<float>(_double);
+	int i = static_cast<int>(_double);
+	if (_double != i || i > 126 || i < 0)
+		std::cout << "char: impossible" << std::endl;
+	else if ((i >= 0 && i < 32) || i == 127)
+		std::cout << "char: Non displayable" << std::endl;
+	else
+		std::cout << "char: '" << static_cast<char>(i) << "'"<< std::endl;
+	if (_float > std::numeric_limits<int>::max() || _float < std::numeric_limits<int>::min())
+		std::cout << "int: impossible" << std::endl;
+	else
+		std::cout << "int: " << i << std::endl;
+	if (i == _float)
+		std::cout << "float: " << signal << _float << ".0f" <<  std::endl;
+	else if (std::isinf(static_cast<float>(_double)))
+	{
+		char signal = (_double > 0) ? '+' : '-';
+		std::cout << "float: " << signal << static_cast<float>(_double) << std::endl;
+	}
+	else
+		std::cout << "float: " << signal << _float << "f" <<  std::endl;
+	if (i == _double)
+		std::cout << "double: " << signal << _double << ".0" << std::endl;
+	else
+		std::cout << "double: " << signal << _double << std::endl;
+}
+
+void	ScalarConverter::inf_nan(const std::string& literal)
+{
+	std::cout << "char: impossible\nint: impossible" << std::endl;
+	if (literal == "+inf" || literal == "-inf" || literal == "nan")
+	{
+		std::cout << "float: " << literal << "f" << std::endl;
+		std::cout << "double: " << literal << std::endl;
+		return ;
+	}
+	std::cout << "float: " << literal << std::endl;
+	std::cout << "double: ";
+	if (literal == "+inff")
+		std::cout << "+inf" << std::endl;
+	else if (literal == "-inff")
+		std::cout << "-inf" << std::endl;
+	else
+		std::cout << "nan" << std::endl;
+}
+
+void ScalarConverter::convert(const std::string& literal)
+{
+	if (literal == "+inf" || literal == "-inf" || literal == "+inff" || literal == "-inff" || literal == "nan" || literal == "nanf")
+		inf_nan(literal);
+	else if (literal.length() == 1 && isChar(literal))
+		charConversion(literal[0]);
+	else if (isInt(literal))
+		intConversion(literal);
+	else if (isFloat(literal))
+		floatConversion(std::stof(literal));
+	else if (isDouble(literal))
+		doubleConversion(std::stod(literal));
+	else
+		std::cout << "Oops, impossible to convert 😞" << std::endl;
 }
 
 ScalarConverter::~ScalarConverter()
 {
-    std::cout << "ScalarConverter destructor called" << std::endl;
-}
-
-void ScalarConverter::printResults(char c, int i, float f, double d)
-{
-    if (isprint(c))
-        std::cout << "char: '" << c << "'" << std::endl;
-    else
-        std::cout << "char: Non displayable" << std::endl;
-    std::cout << "int: " << i << std::endl;
-    std::cout << "float: " << f << "f" << std::endl;
-    std::cout << "double: " << d << std::endl;
-}
-
-bool ScalarConverter::isChar(const std::string& literal)
-{
-    return literal.length() == 3 && literal[0] == '\'' && literal[2] == '\'';
-}
-
-bool ScalarConverter::isInt(const std::string& literal)
-{
-    char* end = NULL;
-    long val = std::strtol(literal.c_str(), &end, 10);
-    if (*end != '\0' || val < INT_MIN || val > INT_MAX)
-        return false;
-    return true;
-}
-
-bool ScalarConverter::isFloat(const std::string& literal)
-{
-    if (literal.length() > 0 && literal.at(literal.length() - 1) == 'f') {
-        char* end = NULL;
-        //float val = std::strtof(literal.c_str(), &end);
-        if (*end != 'f') {
-            return false;
-        }
-        return true;
-    }
-    return false;
-}
-
-bool ScalarConverter::isDouble(const std::string& literal)
-{
-    if (!literal.empty() && literal[literal.length() - 1] == 'd') {
-        char* end = NULL;
-        //double val = std::strtod(literal.c_str(), &end);
-        if (*end != '\0') {
-            return false;
-        }
-        return true;
-    }
-    return false;
-}
-
-void ScalarConverter::handleNan(const std::string& literal)
-{
-    if (literal == "nanf") {
-        float f = FLT_MAX;
-        printResults('?', 0, f, static_cast<double>(f));
-    } else {
-        double d = DBL_MAX;
-        printResults('?', 0, static_cast<float>(d), d);
-    }
-}
-
-void ScalarConverter::handleInf(const std::string& literal, bool positive)
-{
-    if (literal == "+inff" || literal == "inff") {
-        float f = positive ? FLT_MAX : -FLT_MAX;
-        printResults('?', 0, f, static_cast<double>(f));
-    } else {
-        double d = positive ? DBL_MAX : -DBL_MAX;
-        printResults('?', 0, static_cast<float>(d), d);
-    }
-}
-
-void ScalarConverter::convert()
-{
-    try {
-        if (_string == "nan" || _string == "nanf")
-            handleNan(_string);
-        else if (_string == "+inf" || _string == "inf" || _string == "+inff" || _string == "inff")
-            handleInf(_string, true);
-        else if (_string == "-inf" || _string == "-inff")
-            handleInf(_string, false);
-        else {
-            if (isChar(_string)) {
-                char c = _string[1];
-                printResults(c, static_cast<int>(c), static_cast<float>(c), static_cast<double>(c));
-            } else if (isInt(_string)) {
-                int i = std::stoi(_string);
-                printResults(static_cast<char>(i), i, static_cast<float>(i), static_cast<double>(i));
-            } else if (isFloat(_string)) {
-                float f = std::strtof(_string.c_str(), 0);
-                printResults(static_cast<char>(f), static_cast<int>(f), f, static_cast<double>(f));
-            } else if (isDouble(_string)) {
-                double d = std::strtod(_string.c_str(), 0);
-                printResults(static_cast<char>(d), static_cast<int>(d), static_cast<float>(d), d);
-            } else
-                throw std::invalid_argument("Invalid literal");
-        }
-    } catch (const std::exception& e) {
-        std::cout << "Conversion error: " << e.what() << std::endl;
-    }
+	std::cout << BLUE << "ScalarConverter destructor called" << RESET << std::endl;
 }
