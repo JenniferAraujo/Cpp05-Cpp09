@@ -2,6 +2,7 @@
 
 int main(void)
 {
+	std::srand(time(0));
 	std::cout << CYAN << "Tests with int" << RESET << std::endl;
 	int x = 5, y = 10;
 	std::cout << "Before swap: " << ORANGE << "x = " << RESET << x << ", " << ORANGE << "y = " << RESET << y << std::endl;

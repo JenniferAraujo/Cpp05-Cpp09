@@ -26,7 +26,7 @@ bool	ScalarConverter::isChar(const std::string& literal)
 	return true;
 }
 
-bool	ScalarConverter::isInt(const std::string& literal)
+bool ScalarConverter::isInt(const std::string& literal)
 {
 	if (literal.empty())
 		return false;
@@ -42,15 +42,10 @@ bool	ScalarConverter::isInt(const std::string& literal)
 		if (!isdigit(literal[i]))
 			return false;
 	}
-	try {
-		long val = std::stol(literal);
-		if (val < -2147483647 || val > 2147483647)
-			return false;
-	}
-	catch (...)
-	{
+	char* end;
+	long val = strtol(literal.c_str(), &end, 10);
+	if (*end != '\0' || val < -2147483647 || val > 2147483647)
 		return false;
-	}
 	return true;
 }
 
@@ -133,7 +128,7 @@ void	ScalarConverter::intConversion(const std::string &literal)
 void ScalarConverter::floatConversion(float _float)
 {
 	char signal = '\0';
-	if (std::isinf(_float) && _float > 0)
+	if (isinf(_float) && _float > 0)
 		signal = '+';
 	double d = static_cast<double>(_float);
 	int i = static_cast<int>(_float);
@@ -160,7 +155,7 @@ void ScalarConverter::floatConversion(float _float)
 void	ScalarConverter::doubleConversion(double _double)
 {
 	char signal = '\0';
-	if (std::isinf(_double) && _double > 0)
+	if (isinf(_double) && _double > 0)
 		signal = '+';
 	float _float = static_cast<float>(_double);
 	int i = static_cast<int>(_double);
@@ -176,7 +171,7 @@ void	ScalarConverter::doubleConversion(double _double)
 		std::cout << "int: " << i << std::endl;
 	if (i == _float)
 		std::cout << "float: " << signal << _float << ".0f" <<  std::endl;
-	else if (std::isinf(static_cast<float>(_double)))
+	else if (isinf(static_cast<float>(_double)))
 	{
 		char signal = (_double > 0) ? '+' : '-';
 		std::cout << "float: " << signal << static_cast<float>(_double) << std::endl;
@@ -217,9 +212,9 @@ void ScalarConverter::convert(const std::string& literal)
 	else if (isInt(literal))
 		intConversion(literal);
 	else if (isFloat(literal))
-		floatConversion(std::stof(literal));
+		floatConversion(strtof(literal.c_str(), NULL));
 	else if (isDouble(literal))
-		doubleConversion(std::stod(literal));
+		doubleConversion(strtod(literal.c_str(), NULL));
 	else
 		std::cout << "Oops, impossible to convert 😞" << std::endl;
 }

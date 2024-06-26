@@ -7,6 +7,5 @@ int main(int ac, char **av)
 		std::cout << "Invalid argument!" << std::endl;
 		return (0);
 	}
-
 	ScalarConverter::convert(av[1]);
 }

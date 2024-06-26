@@ -10,6 +10,7 @@
 # include <unistd.h>
 # include <iomanip> 
 # include <cstdlib>
+#include <cmath> 
 # include <ctime>
 
 # define CYAN    "\e[0;36m"

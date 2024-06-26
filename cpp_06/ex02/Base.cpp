@@ -49,21 +49,21 @@ void identify(Base& p)
 		(void)testA;
 		return ;
 	}
-	catch (std::bad_cast&){}
+	catch (std::exception &){}
 	try {
 		B& testB = dynamic_cast<B &>(p);
 		std::cout << MAGENTA << "B" << RESET << std::endl;
 		(void)testB;
 		return ;
 	}
-	catch (std::bad_cast&){}
+	catch (std::exception &){}
 	try {
 		C& testC = dynamic_cast<C &>(p);
 		std::cout << BLUE << "C" << RESET << std::endl;
 		(void)testC;
 		return ;
 	}
-	catch (std::bad_cast&){
+	catch (std::exception &){
 		std::cout << RED << "Unknown Type" << RESET << std::endl;	
 	}
 }

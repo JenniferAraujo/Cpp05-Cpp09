@@ -21,8 +21,8 @@
 # define BLUE	"\033[34m"
 # define RESET "\033[0m"
 
-template <typename T>
-void	iter(T *array, int	len, void (*func)(T&)){
+template <typename T, typename F>
+void	iter(T *array, int	len, F func){
 	if (!array || !func)
 		return ;
 	for (int i = 0; i < len; i++)
