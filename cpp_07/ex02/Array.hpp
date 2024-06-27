@@ -32,6 +32,7 @@ class Array {
 		Array(const Array& copy);
 		Array& operator=(const Array& copy);
 		T & operator[](unsigned int index); // operator: [ ]
+		const T & operator[](unsigned int index) const;
 
 		class	InvalidIndexException : public std::exception {
 		public:
@@ -75,6 +76,14 @@ Array<T> & Array<T>::operator=(const Array& copy)
 
 template<typename T>
 T& Array<T>::operator[](unsigned int index)
+{
+	if (index >= _size || _data == NULL)
+		throw Array<T>::InvalidIndexException();
+	return _data[index];
+}
+
+template<typename T>
+const T& Array<T>::operator[](unsigned int index) const
 {
 	if (index >= _size || _data == NULL)
 		throw Array<T>::InvalidIndexException();
