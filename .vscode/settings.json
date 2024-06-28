@@ -1,8 +1,10 @@
 {
     "files.associations": {
-        "cmath": "cpp",
-        "ostream": "cpp",
+        "cctype": "cpp",
+        "algorithm": "cpp",
+        "exception": "cpp",
         "iostream": "cpp",
-        "typeinfo": "cpp"
+        "ostream": "cpp",
+        "list": "cpp"
     }
 }
