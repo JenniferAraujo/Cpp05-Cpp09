@@ -30,6 +30,7 @@ public:
 
 	MutantStack() : std::stack<T, Container>() {}
 	MutantStack(const MutantStack& copy) : std::stack<T, Container>(copy) {}
+	~MutantStack(){}
 	MutantStack& operator=(const MutantStack& copy) {
         if (this != &copy)
             std::stack<T, Container>::operator=(copy);
@@ -47,7 +48,6 @@ public:
 
 	const_reverse_iterator rbegin() const { return this->c.rbegin(); }
 	const_reverse_iterator rend() const { return this->c.rend(); }
-	~MutantStack(){}
 };
 
 #endif
