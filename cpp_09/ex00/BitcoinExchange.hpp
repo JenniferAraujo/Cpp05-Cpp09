@@ -15,6 +15,7 @@
 # include <fstream>
 # include <sstream>
 #include <stdexcept>
+#include <cctype>  
 
 # define CYAN    "\e[0;36m"
 # define MAGENTA "\033[0;35m"
@@ -34,10 +35,11 @@ class BitcoinExchange {
 		BitcoinExchange& operator=(const BitcoinExchange& copy);
 		BitcoinExchange(std::ifstream& data);
 		
-		void	printDataBase() const;
-		void 	handleInput(const std::string& filename);
-		std::string	findClosestDate(const std::string& target_date) const;
-		void	processLine(const std::string& line);
+		void		printDataBase() const;
+		void 		handleInput(const std::string& filename);
+		std::string	getClosestDate(const std::string& target_date) const;
+		void		validValue(const std::string& value_str);
+		void		processLine(const std::string& line);
 		~BitcoinExchange();
 
 		class BitcoinExchangeException : public std::exception

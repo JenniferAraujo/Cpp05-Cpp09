@@ -1,7 +1,6 @@
 #include "BitcoinExchange.hpp"
 
-BitcoinExchange::BitcoinExchange()
-{
+BitcoinExchange::BitcoinExchange() {
 	std::ifstream dt("data.csv");
 	if (!dt)
 	   throw BitcoinExchangeException("Error, cannot open database!");
@@ -34,8 +33,7 @@ BitcoinExchange::BitcoinExchange(const BitcoinExchange& copy){
 	*this = copy;
 }
 
-BitcoinExchange& BitcoinExchange::operator=(const BitcoinExchange& copy)
-{
+BitcoinExchange& BitcoinExchange::operator=(const BitcoinExchange& copy) {
 	if (this != &copy) {
 		dataBase.clear();
 		std::map<std::string, float>::const_iterator i;
@@ -58,8 +56,7 @@ bool	validMonth(int month) {
 	return month >= 1 && month <= 12;
 }
 
-bool	validDay(int year, int month, int day)
-{
+bool	validDay(int year, int month, int day) {
 	if (day < 1 || day > 31)
 		return false;
 	if (month == 2)
@@ -86,27 +83,23 @@ bool	validDate(const std::string& date) {
 	return validYear(year) && validMonth(month) && validDay(year, month, day);
 }
 
-bool validValue(const std::string& value_str)
-{
-	try {
-		std::stringstream ss(value_str);
-		float value;
-		if (!(ss >> value) || !ss.eof() || value < 0 || value > 1000) {
-			return false;
-		}
-		return true;
-	} catch (const std::exception& e) {
-		return false;
-	}
+void	BitcoinExchange::validValue(const std::string& value_str) {
+	std::stringstream ss(value_str);
+	float	value;
+	
+	if (!(ss >> value) || !ss.eof())
+		throw BitcoinExchangeException("invalid number");
+	if (value < 0)
+		throw BitcoinExchangeException("is not a positive number");
+	if (value > 1000)
+		throw BitcoinExchangeException("too large number");
 }
 
-std::string BitcoinExchange::findClosestDate(const std::string& target_date) const
-{
+std::string BitcoinExchange::getClosestDate(const std::string& target_date) const {
 	std::string closest_date = "";
 	std::map<std::string, float>::const_iterator it = dataBase.lower_bound(target_date);
 
-	if (it == dataBase.end())
-	{
+	if (it == dataBase.end()) {
 		if (!dataBase.empty()) {
 			--it;
 			closest_date = it->first;
@@ -122,16 +115,28 @@ std::string BitcoinExchange::findClosestDate(const std::string& target_date) con
 	return closest_date;
 }
 
-void BitcoinExchange::processLine(const std::string& line)
-{
+bool	all_of(const std::string::const_iterator& begin, const std::string::const_iterator& end, bool (*predicate)(int)) {
+	for (std::string::const_iterator it = begin; it != end; ++it) {
+		if (!predicate(static_cast<unsigned char>(*it))) {
+			return false;
+		}
+	}
+	return true;
+}
+
+bool	is_space(int c) {
+	return std::isspace(c);
+}
+
+void	BitcoinExchange::processLine(const std::string& line) {
 	std::string date, value_str;
 	std::istringstream ss(line);
 
-	if (line.empty() || std::all_of(line.begin(), line.end(), ::isspace))
-		return;
+	if (line.empty() || all_of(line.begin(), line.end(), is_space))
+		return ;
 	if (!std::getline(ss, date, '|') || !std::getline(ss, value_str, '|')) {
 		std::cout << RED << "Error: bad input => " << line << RESET << std::endl;
-		return;
+		return ;
 	}
 	try {
 		size_t start = date.find_first_not_of(" ");
@@ -143,11 +148,9 @@ void BitcoinExchange::processLine(const std::string& line)
 
 		if (!validDate(date))
 			throw BitcoinExchangeException("Error: invalid date format or out of range.");
-		if (!validValue(value_str))
-			throw BitcoinExchangeException("Too large a number ");
-
+		validValue(value_str);
 		float value = std::atof(value_str.c_str());
-		std::string closest_date = findClosestDate(date);
+		std::string closest_date = getClosestDate(date);
 		float btc_price = dataBase.find(closest_date)->second;
 		float result = value * btc_price;
 		std::cout << date << " => " << value << " = " << std::fixed << std::setprecision(2) << result << std::endl;
@@ -156,8 +159,7 @@ void BitcoinExchange::processLine(const std::string& line)
 	}
 }
 
-void BitcoinExchange::handleInput(const std::string& filename)
-{
+void BitcoinExchange::handleInput(const std::string& filename) {
 	std::ifstream file(filename.c_str());
 	std::string line;
 
