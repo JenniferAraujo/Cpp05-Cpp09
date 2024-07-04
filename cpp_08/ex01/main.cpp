@@ -1,14 +1,13 @@
 #include "Span.hpp"
 
-void Span::printNumbers(void) const{
+void	Span::printNumbers(void) const {
 	for (std::vector<int>::const_iterator it = _numbers.begin(); it != _numbers.end(); ++it){
 		std::cout << *it << " ";
 	}
 	std::cout << std::endl;
 }
 
-int	main(void)
-{
+int	main(void) {
 	srand(time(NULL));
 	std::cout << CYAN << "Add Number" << RESET << std::endl;
 	{
@@ -69,6 +68,6 @@ int	main(void)
 			std::cout << e.what() << std::endl;
 		}
 	}
-	return 0;
+	return (0);
 }
 

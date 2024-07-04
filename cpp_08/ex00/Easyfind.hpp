@@ -17,17 +17,15 @@
 # define BLUE	"\033[34m"
 # define RESET "\033[0m"
 
-class ValueNotFoundException : public std::exception
-{
+class ValueNotFoundException : public std::exception {
 	public:
 	virtual const char *what() const throw(){
-		return ("OPs, value not found in container!");
+		return ("Ops, value not found in container!");
 	}
 };
 
 template <typename T>
-typename T::iterator easyfind(T &container, int value)
-{
+typename T::iterator easyfind(T &container, int value) {
 	typename T::iterator it = std::find(container.begin(), container.end(), value);
 	if (it == container.end()){
 		throw ValueNotFoundException();
@@ -36,8 +34,7 @@ typename T::iterator easyfind(T &container, int value)
 }
 
 template <typename T>
-void	printContainer(const T& container)
-{
+void	printContainer(const T& container) {
 	for (typename T::const_iterator it = container.begin(); it != container.end(); ++it) {
 		std::cout << *it << " ";
 	}
@@ -45,4 +42,3 @@ void	printContainer(const T& container)
 }
 
 #endif
-

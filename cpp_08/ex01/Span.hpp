@@ -7,6 +7,7 @@
 #include <deque>
 #include <limits>
 #include <algorithm>
+#include <cstdlib>
 #include <exception>
 
 # define CYAN    "\e[0;36m"
@@ -27,19 +28,16 @@ class Span {
 		Span(unsigned int N);
 		Span(const Span& copy);
 		Span& operator=(const Span& copy);
-
 		void	addNumber(int num);  // add um número ao Span
 		void	addNUmber(std::vector<int>::iterator begin, std::vector<int>::iterator end);  // add uma faixa de números usando iteradores
-		int		shortestSpan();  // encontrar o menor span entre os números armazenados
-		int		longestSpan();  // encontrar o maior span entre os números armazenados
+		int		shortestSpan();  // encontrar o menor num entre os números armazenados
+		int		longestSpan();  // encontrar o maior num entre os números armazenados
 		void	printNumbers(void) const;
-
 		~Span();
 };
 
 template <typename T>
-void	printContainer(const T& container)
-{
+void	printContainer(const T& container) {
 	for (typename T::const_iterator it = container.begin(); it != container.end(); ++it) {
 		std::cout << *it << " ";
 	}
@@ -47,5 +45,3 @@ void	printContainer(const T& container)
 }
 
 #endif
-
-

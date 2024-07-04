@@ -1,7 +1,6 @@
 #include "MutantStack.hpp"
 
-int	main(void)
-{
+int	main(void) {
 	std::cout << MAGENTA <<  " *	Test using Mustack	*\n" << RESET << std::endl;
 	MutantStack<int> mstack;
 	mstack.push(5);
@@ -49,5 +48,4 @@ int	main(void)
 	std::stack<int> test(mstack);
 	std::cout << "mstack.top() = " << BLUE << mstack.top() << RESET << " and test.top() = " << GREEN << test.top() << RESET << std::endl;
 	std::cout << "mstack.size() = " << BLUE << mstack.size() << RESET << " and test.size() = " << GREEN << test.size()<< RESET << std::endl;
-	return (0);
 }

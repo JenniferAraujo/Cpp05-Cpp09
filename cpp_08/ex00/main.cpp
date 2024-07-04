@@ -1,7 +1,6 @@
-#include  "Easyfind.hpp"
+#include "Easyfind.hpp"
 
-void	testVector(void)
-{
+void	testVector(void) {
 	int arr[] = {5, 4, 3, 2, 1, 3};
 	std::vector<int> vec(arr, arr + sizeof(arr) / sizeof(int));
 
@@ -23,8 +22,7 @@ void	testVector(void)
 	}
 }
 
-void	testList(void)
-{
+void	testList(void) {
 	int arr[] = {1, 2, 3, 4, 5};
 	std::list<int> lst(arr, arr + sizeof(arr) / sizeof(int));
 
@@ -46,8 +44,7 @@ void	testList(void)
 	}
 }
 
-void	testDeque(void)
-{
+void	testDeque(void) {
 	int arr[] = {40, 41, 42, 43, 45};
 	std::deque<int> deq(arr, arr + sizeof(arr) / sizeof(int));
 
@@ -69,12 +66,10 @@ void	testDeque(void)
 	}
 }
 
-int	main(void)
-{
+int	main(void) {
 	testVector();
 	testList();
 	testDeque();
-
 	return (0);
 }
 
