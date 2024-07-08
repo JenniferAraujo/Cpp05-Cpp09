@@ -11,7 +11,7 @@ RPN::RPN(const RPN& copy) {
 RPN& RPN::operator=(const RPN& copy) {
 	while (!_stack.empty())
 		_stack.pop();
-		_stack = copy._stack;
+	_stack = copy._stack;
 	return *this;
 }
 
