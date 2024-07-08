@@ -1,12 +1,8 @@
 #ifndef RPN_HPP
 # define RPN_HPP
 
-#include <vector>
-#include <list>
-#include <deque>
 #include <limits>
 #include <stack>
-# include <map>
 #include <iostream>
 #include <algorithm>
 # include <iomanip>
@@ -28,12 +24,28 @@
 
 class RPN {
     private:
+		std::stack<double> _stack;
+
+		bool	CheckOperator(char op);
+		bool	invalidChar(char c);
+		int		performOperation(int first, int second, const std::string &op) const;
 
     public:
         RPN();
         RPN(const RPN& copy);
 		RPN& operator=(const RPN& copy);
         ~RPN();
+
+		void	calculate(const std::string& expression);
+		class RPNException : public std::exception
+		{
+			public:
+				RPNException(const std::string& message);
+				virtual const char* what() const throw();
+				virtual ~RPNException() throw() {}
+			private:
+				std::string _message;
+		};
 };
 
 #endif
