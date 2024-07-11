@@ -23,18 +23,17 @@
 # define RESET "\033[0m"
 
 class RPN {
-    private:
-		std::stack<double> _stack;
+	private:
+		std::stack<float> _stack;
 
 		bool	CheckOperator(char op);
 		bool	invalidChar(char c);
-		int		performOperation(int first, int second, const std::string &op) const;
-
-    public:
-        RPN();
-        RPN(const RPN& copy);
+		float		performOperation(float first, float second, const std::string &op) const;
+	public:
+		RPN();
+		RPN(const RPN& copy);
 		RPN& operator=(const RPN& copy);
-        ~RPN();
+		~RPN();
 
 		void	calculate(const std::string& expression);
 		class RPNException : public std::exception

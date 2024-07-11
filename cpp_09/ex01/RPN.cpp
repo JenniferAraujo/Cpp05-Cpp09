@@ -30,12 +30,12 @@ bool	RPN::CheckOperator(char op) {
 
 bool	RPN::invalidChar(char c) {
 	if ((c >= '0' && c <= '9') || c == ' ' || CheckOperator(c) == true)
-		return true ;
+		return false ;
 	else
-		return false;
+		return true;
 }
 
-int	RPN::performOperation(int first, int second, const std::string &op) const {
+float	RPN::performOperation(float first, float second, const std::string &op) const {
 	if (op == "+")
 		return first + second;
 	if (op == "-")
@@ -51,39 +51,35 @@ int	RPN::performOperation(int first, int second, const std::string &op) const {
 }
 
 void	RPN::calculate(const std::string& expression) {
-	std::string number;
-
-	for (size_t i = 0; i < expression.size(); ++i) {
-		char c = expression[i];
-		if (isdigit(c)) {
-			number += c;
-		} else if (c == ' ' && !number.empty()) {
-			_stack.push(std::stof(number));
-			number.clear();
-		} else if (CheckOperator(c)) {
+	std::istringstream iss(expression);
+	std::string op;
+	while (iss >> op) {
+		if (isdigit(op[0])) {
+			_stack.push(std::atof(op.c_str()));
+		} else if (invalidChar(op[0])) {
+			std::cout << "Error: Invalid character: '" << op << "'" << std::endl;
+			return;
+		} else if (CheckOperator(op[0])) {
 			if (_stack.size() < 2) {
 				std::cout << "Error: impossible to perform the operation." << std::endl;
-				return;
+				return ;
 			}
 			float second = _stack.top();
 			_stack.pop();
 			float first = _stack.top();
 			_stack.pop();
 			try {
-				float result = performOperation(first, second, std::string(1, c));
+				float result = performOperation(first, second, op);
 				_stack.push(result);
 			} catch (const RPNException& e) {
 				std::cout << e.what() << std::endl;
-				return;
+				return ;
 			}
-		} else if (c != ' ') {
-			std::cout << "Error: Invalid character: '" << c << "'" << std::endl;
-			return;
 		}
 	}
 	if (_stack.size() != 1) {
-		std::cout << "Error: incomplete expression." << std::endl;
-		return;
+		std::cout << "Error: Incomplete expression." << std::endl;
+		return ;
 	}
 	std::cout << _stack.top() << std::endl;
 }
