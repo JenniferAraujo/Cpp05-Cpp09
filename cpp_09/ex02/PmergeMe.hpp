@@ -2,9 +2,12 @@
 #define PMERGEME_HPP
 
 #include <iostream>
+#include <algorithm>
+#include <limits.h>
 #include <vector>
 #include <list>
 #include <string>
+# include <stdlib.h>
 #include <exception>
 
 class	PmergeMe {
@@ -14,14 +17,12 @@ class	PmergeMe {
 		PmergeMe& operator=(const PmergeMe& copy);
 		~PmergeMe();
 
-		bool				checkNumber(const std::string& str);
+		void				checkNumber(const std::string& str);
 		void				sort(const std::vector<int>& sequence);
 		std::vector<int>	algoritmVector(std::vector<int> vec);
 		std::list<int>		algoritmList(std::list<int> list);
 		std::vector<int>	jacobsthalSeq(int number);
-		std::vector<int>	jacobsthalDifferences(int number);
-		void				insertVector(std::vector<int>& sorted_seq, int value);
-		void				insertList(std::list<int>& sorted_seq, int value);
+		std::vector<int>	jacobsthalDiff(int number);
 		void				print(const std::vector<int> &sequence);
 
 		class PmergeMeException : public std::exception {
@@ -32,6 +33,24 @@ class	PmergeMe {
 			private:
 				std::string _message;
 		};
+
+		template<typename Container, typename PairContainer>
+		void	createPairs(Container& container, PairContainer& pairs) {
+			for (typename Container::iterator it = container.begin(); it != container.end(); ) {
+				int first = *it++;
+				if (it == container.end()) break;
+				int second = *it++;
+				if (first < second)
+					pairs.push_back(std::make_pair(first, second));
+				else
+					pairs.push_back(std::make_pair(second, first));
+			}
+		}
+		template<typename Container>
+		void	insertSorted(Container& container, int value) {
+			typename Container::iterator pos = std::lower_bound(container.begin(), container.end(), value);
+			container.insert(pos, value);
+		}
 };
 
 #endif

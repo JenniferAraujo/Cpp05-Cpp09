@@ -44,7 +44,7 @@ float	RPN::performOperation(float first, float second, const std::string &op) co
 		return first * second;
 	if (op == "/") {
 		if (second == 0)
-			throw RPNException("Error: division by zero.");
+			throw RPNException ("Error: division by zero.");
 		return first / second;
 	}
 	throw RPNException("Error: invalid operator.");
