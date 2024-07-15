@@ -24,13 +24,23 @@ const char* PmergeMe::PmergeMeException::what() const throw() {
 void	PmergeMe::checkNumber(const std::string& str) {
 	for (size_t i = 0; i < str.size(); ++i) {
 		if (!std::isdigit(str[i]))
-			throw PmergeMeException("Error: Only positive integers are allowed.");
+			throw PmergeMeException("Only positive integers are allowed.");
 	}
 	char* endptr;
 	long num = std::strtol(str.c_str(), &endptr, 10);
 	if (*endptr != '\0' || num <= 0 || num > INT_MAX) {
-		throw PmergeMeException("Error: invalid number.");
+		throw PmergeMeException("Invalid number.");
 	}
+}
+
+void	PmergeMe::checkAllEqual(const std::vector<int>& numbers) {
+	int first = numbers[0];
+	for (size_t i = 1; i < numbers.size(); ++i) {
+		if (numbers[i] != first) {
+			return ;
+		}
+	}
+	throw PmergeMeException("All numbers are the same");
 }
 
 std::vector<int>	PmergeMe::jacobsthalSeq(int number) {
@@ -54,7 +64,7 @@ std::vector<int>	PmergeMe::jacobsthalDiff(int number) {
 	return diff;
 }
 
-std::vector<int>	PmergeMe::algoritmVector(std::vector<int> vec) {
+std::vector<int>	PmergeMe::sortVector(std::vector<int> vec) {
 	if (vec.size() <= 1)
 		return vec;
 
@@ -73,7 +83,7 @@ std::vector<int>	PmergeMe::algoritmVector(std::vector<int> vec) {
 		pend.push_back(pairs[i].first);
 		sorted.push_back(pairs[i].second);
 	}
-	sorted = algoritmVector(sorted);
+	sorted = sortVector(sorted);
 
 	std::vector<int> jacobsthal = this->jacobsthalDiff(pend.size());
 	size_t index = 0;
@@ -98,7 +108,7 @@ std::vector<int>	PmergeMe::algoritmVector(std::vector<int> vec) {
 	return sorted;
 }
 
-std::list<int>	PmergeMe::algoritmList(std::list<int> list) {
+std::list<int>	PmergeMe::sortList(std::list<int> list) {
 	if (list.size() <= 1)
 		return list;
 
@@ -117,7 +127,7 @@ std::list<int>	PmergeMe::algoritmList(std::list<int> list) {
 		pend.push_back(it->first);
 		sorted.push_back(it->second);
 	}
-	sorted = algoritmList(sorted);
+	sorted = sortList(sorted);
 
 	std::vector<int> jacobsthal = this->jacobsthalDiff(pend.size());
 	std::list<int>::iterator it = pend.begin();
@@ -148,27 +158,31 @@ void	PmergeMe::sort(const std::vector<int>& numbers) {
 	std::vector<int> vec = numbers;
 	std::list<int> list(numbers.begin(), numbers.end());
 
-	std::cout << "Before sort: ";
+	checkAllEqual(numbers);
+	std::cout << BLUE << "Before sort: " << RESET;
 	print(numbers);
 
 	clock_t init, end;
 
 	// Sort std::vector
 	init = clock();
-	std::vector<int> sorted = algoritmVector(vec);
+	std::vector<int> sorted = sortVector(vec);
 	end = clock();
 	double vectorTime = double(end - init) / (double) CLOCKS_PER_SEC;
 
 	// Sort std::list
 	init = clock();
-	std::list<int> sorted_list = algoritmList(list);
+	std::list<int> sorted_list = sortList(list);
 	end = clock();
 	double listTime = double(end - init) / (double)CLOCKS_PER_SEC;
 
-	std::cout << "After sort: ";
+	std::cout << MAGENTA << "\nSort with vector: " << RESET;
 	print(sorted);
-	std::cout << "Time to sort " << numbers.size() << " elements with std::vector: "<< std::fixed << vectorTime << " us" << std::endl;
-	std::cout << "Time to sort " << numbers.size() << " elements with std::list: " << listTime << " us" << std::endl;
+	std::cout << "Time to sort " << numbers.size() << " elements with std::vector: "<< std::fixed << CYAN << vectorTime <<" us" << RESET << std::endl;
+
+	std::cout << ORANGE << "\nSort with list: " << RESET;
+	print(std::vector<int>(sorted_list.begin(), sorted_list.end()));
+	std::cout << "Time to sort " << numbers.size() << " elements with std::list: " << CYAN << listTime << " us" << RESET << std::endl;
 }
 
 void	PmergeMe::print(const std::vector<int>& numbers) {
