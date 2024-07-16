@@ -1,8 +1,8 @@
 #include "RPN.hpp"
 
-int	main(int ac, char* av[]) {
+int	main(int ac, char *av[]) {
 	if (ac != 2 || !av[1][0]) {
-		std::cout << "Error: invalid argument." << std::endl;
+		std::cout << "Error: Invalid argument." << std::endl;
 		return 1;
 	}
 	std::string expression = av[1];

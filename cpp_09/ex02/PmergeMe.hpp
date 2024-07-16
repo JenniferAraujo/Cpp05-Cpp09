@@ -43,7 +43,6 @@ class	PmergeMe {
 			private:
 				std::string _message;
 		};
-
 		template<typename Container, typename PairContainer>
 		void	createPairs(Container& container, PairContainer& pairs) {
 			for (typename Container::iterator it = container.begin(); it != container.end(); ) {
@@ -61,6 +60,16 @@ class	PmergeMe {
 			typename Container::iterator pos = std::lower_bound(container.begin(), container.end(), value);
 			container.insert(pos, value);
 		}
+		template <typename Container>
+		bool	isSorted(const Container& container) {
+			return std::adjacent_find(container.begin(), container.end(), std::greater<typename Container::value_type>()) == container.end();
+		}
+		template <typename Container>
+		void checkIfSorted(const Container& container) {
+			if (isSorted(container)) {
+			throw PmergeMe::PmergeMeException("The input numbers are already sorted.");
+		}
+}
 };
 
 #endif

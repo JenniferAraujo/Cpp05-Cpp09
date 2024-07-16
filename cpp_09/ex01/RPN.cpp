@@ -44,26 +44,29 @@ float	RPN::performOperation(float first, float second, const std::string &op) co
 		return first * second;
 	if (op == "/") {
 		if (second == 0)
-			throw RPNException ("Error: division by zero.");
+			throw RPNException ("Division by zero.");
 		return first / second;
 	}
-	throw RPNException("Error: invalid operator.");
+	throw RPNException("Invalid operator.");
 }
 
 void	RPN::calculate(const std::string& expression) {
 	std::istringstream iss(expression);
-	std::string op;
+	std::string	op;
+	bool hasNum = false;
+
 	while (iss >> op) {
 		if (isdigit(op[0])) {
 			_stack.push(std::atof(op.c_str()));
 		} else if (invalidChar(op[0])) {
-			std::cout << "Error: Invalid character: '" << op << "'" << std::endl;
+			std::cout << "Error: Invalid character: '" << op << "'." << std::endl;
 			return;
 		} else if (CheckOperator(op[0])) {
 			if (_stack.size() < 2) {
-				std::cout << "Error: impossible to perform the operation." << std::endl;
+				throw RPNException ("Impossible to perform the operation.");
 				return ;
 			}
+			hasNum = true;
 			float second = _stack.top();
 			_stack.pop();
 			float first = _stack.top();
@@ -77,8 +80,12 @@ void	RPN::calculate(const std::string& expression) {
 			}
 		}
 	}
+	if (!hasNum) {
+		throw RPNException ("Incomplete expression.");
+		return ;
+	}
 	if (_stack.size() != 1) {
-		std::cout << "Error: Incomplete expression." << std::endl;
+		throw RPNException ("Incomplete expression.");
 		return ;
 	}
 	std::cout << _stack.top() << std::endl;

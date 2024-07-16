@@ -3,7 +3,7 @@
 BitcoinExchange::BitcoinExchange() {
 	std::ifstream dt("data.csv");
 	if (!dt)
-	   throw BitcoinExchangeException("Error, cannot open database!");
+	   throw BitcoinExchangeException("Cannot open database.");
 
 	std::string line;
 	std::getline(dt, line);
@@ -88,11 +88,11 @@ void	BitcoinExchange::validValue(const std::string& value_str) {
 	float	value;
 	
 	if (!(ss >> value) || !ss.eof())
-		throw BitcoinExchangeException("invalid number");
+		throw BitcoinExchangeException("Invalid number.");
 	if (value < 0)
-		throw BitcoinExchangeException("is not a positive number");
+		throw BitcoinExchangeException("Is not a positive number.");
 	if (value > 1000)
-		throw BitcoinExchangeException("too large number");
+		throw BitcoinExchangeException("Too large number.");
 }
 
 std::string BitcoinExchange::getClosestDate(const std::string& target_date) const {
@@ -105,7 +105,7 @@ std::string BitcoinExchange::getClosestDate(const std::string& target_date) cons
 			closest_date = it->first;
 		}
 		else
-			throw BitcoinExchangeException("Error: no valid date found.");
+			throw BitcoinExchangeException("No valid date found.");
 	} else if (it->first != target_date && it != dataBase.begin()) {
 		--it;
 		closest_date = it->first;
@@ -135,7 +135,7 @@ void	BitcoinExchange::processLine(const std::string& line) {
 	if (line.empty() || all_of(line.begin(), line.end(), is_space))
 		return ;
 	if (!std::getline(ss, date, '|') || !std::getline(ss, value_str, '|')) {
-		std::cout << RED << "Error: bad input => " << line << RESET << std::endl;
+		std::cout << "Error: bad input => " << line << std::endl;
 		return ;
 	}
 	try {
@@ -147,7 +147,7 @@ void	BitcoinExchange::processLine(const std::string& line) {
 		value_str = value_str.substr(start, end - start + 1);
 
 		if (!validDate(date))
-			throw BitcoinExchangeException("Error: invalid date format or out of range.");
+			throw BitcoinExchangeException("Invalid date format or out of range.");
 		validValue(value_str);
 		float value = std::atof(value_str.c_str());
 		std::string closest_date = getClosestDate(date);
@@ -164,11 +164,18 @@ void BitcoinExchange::handleInput(const std::string& filename) {
 	std::string line;
 
 	if (!file)
-		throw BitcoinExchangeException("Error: could not open file.");
+		throw BitcoinExchangeException("Could not open file.");
 	if (!std::getline(file, line) || line != "date | value")
-		throw BitcoinExchangeException("Error: invalid format first line of file.");
+		throw BitcoinExchangeException("Invalid format first line of file.");
 	while (std::getline(file, line))
 		processLine(line);
+}
+
+void	BitcoinExchange::printDataBase() const {
+	std::map<std::string, float>::const_iterator i;
+	for (i = dataBase.begin(); i != dataBase.end(); ++i) {
+		std::cout << i->first << " => " << i->second << std::endl;
+	}
 }
 
 BitcoinExchange::~BitcoinExchange()

@@ -2,7 +2,7 @@
 
 int	main(int ac, char* av[]) {
 	if (ac <= 2) {
-		std::cout << "Error: the numbers are not enough to order." << std::endl;
+		std::cout << "Error: Invalid argument." << std::endl;
 		return 1;
 	}
 	PmergeMe sorter;

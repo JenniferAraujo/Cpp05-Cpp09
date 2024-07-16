@@ -1,6 +1,5 @@
 #include "PmergeMe.hpp"
 
-// Orthodox Canonical Form
 PmergeMe::PmergeMe() {}
 
 PmergeMe::PmergeMe(const PmergeMe& copy) {
@@ -26,7 +25,7 @@ void	PmergeMe::checkNumber(const std::string& str) {
 		if (!std::isdigit(str[i]))
 			throw PmergeMeException("Only positive integers are allowed.");
 	}
-	char* endptr;
+	char *endptr;
 	long num = std::strtol(str.c_str(), &endptr, 10);
 	if (*endptr != '\0' || num <= 0 || num > INT_MAX) {
 		throw PmergeMeException("Invalid number.");
@@ -40,7 +39,7 @@ void	PmergeMe::checkAllEqual(const std::vector<int>& numbers) {
 			return ;
 		}
 	}
-	throw PmergeMeException("All numbers are the same");
+	throw PmergeMeException("All numbers are the same.");
 }
 
 std::vector<int>	PmergeMe::jacobsthalSeq(int number) {
@@ -68,10 +67,10 @@ std::vector<int>	PmergeMe::sortVector(std::vector<int> vec) {
 	if (vec.size() <= 1)
 		return vec;
 
-	bool flag = vec.size() % 2 != 0;
-	int straggler = 0;
-	if (flag) {
-		straggler = vec.back();
+	bool odd = vec.size() % 2 != 0;
+	int last = 0;
+	if (odd) {
+		last = vec.back();
 		vec.pop_back();
 	}
 	std::vector<std::pair<int, int> > pairs;
@@ -90,7 +89,7 @@ std::vector<int>	PmergeMe::sortVector(std::vector<int> vec) {
 	for (size_t i = 0; i < jacobsthal.size(); ++i) {
 		size_t groupSize = jacobsthal[i];
 		if (index >= pend.size())
-			break;
+			break ;
 
 		std::vector<int> group;
 		for (size_t j = 0; j < groupSize && index < pend.size(); ++j) {
@@ -103,8 +102,8 @@ std::vector<int>	PmergeMe::sortVector(std::vector<int> vec) {
 	}
 	for (size_t i = index; i < pend.size(); ++i)
 		insertSorted(sorted, pend[i]);
-	if (flag)
-		insertSorted(sorted, straggler);
+	if (odd)
+		insertSorted(sorted, last);
 	return sorted;
 }
 
@@ -112,10 +111,10 @@ std::list<int>	PmergeMe::sortList(std::list<int> list) {
 	if (list.size() <= 1)
 		return list;
 
-	bool flag = list.size() % 2 != 0;
-	int	straggler = 0;
-	if (flag) {
-		straggler = list.back();
+	bool odd = list.size() % 2 != 0;
+	int	last = 0;
+	if (odd) {
+		last = list.back();
 		list.pop_back();
 	}
 	std::list<std::pair<int, int> > pairs;
@@ -135,7 +134,7 @@ std::list<int>	PmergeMe::sortList(std::list<int> list) {
 	for (size_t i = 0; i < jacobsthal.size(); ++i) {
 		size_t groupSize = jacobsthal[i];
 		if (it == pend.end())
-			break;
+			break ;
 		std::vector<int> group;
 		for (size_t j = 0; j < groupSize && it != pend.end(); ++j) {
 			group.push_back(*it);
@@ -149,8 +148,8 @@ std::list<int>	PmergeMe::sortList(std::list<int> list) {
 		insertSorted(sorted, *it);
 		++it;
 	}
-	if (flag)
-		insertSorted(sorted, straggler);
+	if (odd)
+		insertSorted(sorted, last);
 	return sorted;
 }
 
@@ -159,6 +158,7 @@ void	PmergeMe::sort(const std::vector<int>& numbers) {
 	std::list<int> list(numbers.begin(), numbers.end());
 
 	checkAllEqual(numbers);
+	checkIfSorted(numbers); 
 	std::cout << BLUE << "Before sort: " << RESET;
 	print(numbers);
 
@@ -166,23 +166,23 @@ void	PmergeMe::sort(const std::vector<int>& numbers) {
 
 	// Sort std::vector
 	init = clock();
-	std::vector<int> sorted = sortVector(vec);
+	std::vector<int> sortVec = sortVector(vec);
 	end = clock();
 	double vectorTime = double(end - init) / (double) CLOCKS_PER_SEC;
 
 	// Sort std::list
 	init = clock();
-	std::list<int> sorted_list = sortList(list);
+	std::list<int> sortLst = sortList(list);
 	end = clock();
 	double listTime = double(end - init) / (double)CLOCKS_PER_SEC;
 
 	std::cout << MAGENTA << "\nSort with vector: " << RESET;
-	print(sorted);
-	std::cout << "Time to sort " << numbers.size() << " elements with std::vector: "<< std::fixed << CYAN << vectorTime <<" us" << RESET << std::endl;
+	print(sortVec);
+	std::cout << "Time to sort " << numbers.size() << " elements with std::vector: " << std::fixed << CYAN << vectorTime << " seconds" << RESET << std::endl;
 
 	std::cout << ORANGE << "\nSort with list: " << RESET;
-	print(std::vector<int>(sorted_list.begin(), sorted_list.end()));
-	std::cout << "Time to sort " << numbers.size() << " elements with std::list: " << CYAN << listTime << " us" << RESET << std::endl;
+	print(std::vector<int>(sortLst.begin(), sortLst.end()));
+	std::cout << "Time to sort " << numbers.size() << " elements with std::list: " << CYAN << listTime << " seconds" << RESET << std::endl;
 }
 
 void	PmergeMe::print(const std::vector<int>& numbers) {
